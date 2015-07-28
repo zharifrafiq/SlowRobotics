@@ -18,30 +18,13 @@ public class WireAgent extends Agent{
 	VoxelGrid volume;
 	MeshPipe geom;
 
-	WireAgent (Vec3D _o, Vec3D _x, Vec3D _y, boolean _f, MainApp _p, VoxelGrid _v) {
-	    super(_o, _x, _y, _f,_p);
-	    volume = _v;
-	    f=_f;  
-	  }
 	  
-	WireAgent (Vec3D _o, boolean _f, MainApp _p, VoxelGrid _v){
-	   super (_o, _f,_p);
+	WireAgent (Vec3D _o, boolean _f,VoxelGrid _v){
+	   super (_o, _f);
 	   volume = _v;
 	   f=_f;
 	  }
-	  
-	WireAgent (Vec3D _o, Vec3D _x, boolean _f, MainApp _p, VoxelGrid _v){
-	    super (_o,_x, _f, _p);
-	    volume = _v;
-	    f = _f;
-	  }
 
-	WireAgent (Plane3D _b, boolean _f, MainApp _p, VoxelGrid _v) {
-	    super(_b, _f,_p);
-	    volume = _v;
-	    f=_f;
-	  }
-	
 	
 	@Override
 	public void run(){

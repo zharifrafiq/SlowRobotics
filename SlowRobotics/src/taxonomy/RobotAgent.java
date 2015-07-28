@@ -16,7 +16,7 @@ public class RobotAgent extends Agent implements Task{
 	//give a reference to the task manager - this would handle states...
 	
 	public RobotAgent(PointCloud _pcl, RobotWorkspace _workspace, Robot _robot) {
-		super(_robot.copy(), false, _workspace.parent);
+		super(_robot.copy(), false);
 		pcl = _pcl;
 		robot = _robot;
 		ws = _workspace;

@@ -1,12 +1,7 @@
 package robotTools;
 
 import java.net.UnknownHostException;
-
-
-
-
-import java.util.Scanner;
-
+import pointCloudTools.Scanner;
 import pointCloudTools.PointCloud;
 import dynamicTools.MainApp;
 import dynamicTools.Plane3D;
@@ -26,10 +21,9 @@ public class RobotWorkspace {
 	public Robot robot;
 	public RobotClient rc;
 	public TaskHandler tasks; 
-	//---------------------------TESTING
 	ServerSimulator sim;
-	TracerAgent test;
-	DabAgent db;
+
+
 	
 	public RobotWorkspace(MainApp _parent){
 		parent = _parent;
@@ -44,8 +38,6 @@ public class RobotWorkspace {
 		}
 		
 		robot = new Robot(initialPlane,this);
-		tasks = new TaskHandler(true); //looping tasks
-		test = new TracerAgent(pcl, this, robot);
 		//db = new DabAgent(pcl, this, robot);
 		initTasks();
 		
@@ -53,15 +45,6 @@ public class RobotWorkspace {
 	}
 	
 	public void initTasks(){
-		//add tasks
-		tasks.addTask(new GoToPoint(robot.homePos, robot)); //start at home
-		tasks.addTask(new MaskedScan(250, 250, 250, 10, this, robot));
-		//tasks.addTask(new OffsetPoint(test,new Vec3D(0,0,150), robot)); //follow agent
-		//tasks.addTask(test); // dab
-		tasks.addTask(test);
-		//tasks.addTask(new DabAgent(pcl, this, robot));
-		//tasks.addTask(TaskHandler.coverSurface(robot, this, pcl)); //run agent task
-		//then add task for making the legs	
 	}
 	
 	public void run(){
@@ -105,21 +88,21 @@ public class RobotWorkspace {
 		//mesh = pcl.createDelaunayMesh();
 	}
 	
-	public PointCloud maskScan(int r, int g, int b, int fuzz, Vec3D loc, float rad){
+	public PointCloud maskScan(int r, int g, int b, int fuzz, Vec3D loc, float rad, Scanner scanner){
 		PointCloud tmp = new PointCloud(parent);
 		//AABB box = AABB.fromMinMax(robot.add(-rad,-rad,-1000), robot.add(rad,rad,-50));
 		AABB box = AABB.fromMinMax(loc.add(new Vec3D(-rad,-rad,-rad)), loc.add(new Vec3D(rad,rad,0)));
 		parent.noFill();
 		parent.stroke(255,0,0);
 		parent.gfx.box(box);
-		tmp.load(parent.kinect.copyAABB(box));
+		tmp.load(scanner.copyAABB(box));
 		tmp.extractColourRange(r, g, b, fuzz);
 		//pcl.loadSinWavePts();
 		return tmp;
 	}
 	
-	public PointCloud additiveScan(Vec3D loc, float rad){
-		pcl.appendHeightField(maskScan(253, 253, 253, 10, loc,rad));
+	public PointCloud additiveScan(Vec3D loc, float rad, Scanner scanner){
+		pcl.appendHeightField(maskScan(253, 253, 253, 10, loc,rad, scanner));
 		return pcl;
 	}
 

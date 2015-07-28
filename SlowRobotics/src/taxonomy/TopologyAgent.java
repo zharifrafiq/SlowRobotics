@@ -9,34 +9,18 @@ import toxi.geom.Triangle3D;
 import toxi.geom.Vec3D;
 
 public class TopologyAgent extends Agent{
-	
-	TopologyAgent (Vec3D _o, Vec3D _x, Vec3D _y, boolean _f, MainApp _p) {
-	    super(_o, _x, _y, _f,_p);
-	    f=_f;  
-	  }
-	  
-	TopologyAgent (Vec3D _o, boolean _f, MainApp _p){
-	   super (_o, _f,_p);
-	   f=_f;
-	  }
-	  
-	TopologyAgent (Vec3D _o, Vec3D _x, boolean _f, MainApp _p){
-	    super (_o,_x, _f, _p);
-	    f = _f;
+
+	TopologyAgent (Vec3D _o, boolean _f){
+	   super (_o, _f);
 	  }
 
-	TopologyAgent (Plane3D _b, boolean _f, MainApp _p) {
-	    super(_b, _f,_p);
-	    f=_f;
-	  }
 	
 	@Override
 	public void run(){
 		if (!f){
 			update();
-			alignWithNeighbours();
+			alignWithNeighbours(50f);
 		}
-		render();
 		checkBounds(3000);
 
 		age++;
@@ -49,7 +33,7 @@ public class TopologyAgent extends Agent{
 	  
 	//-------------------------------------------------------------------------------------
 	
-	public void alignWithNeighbours() {
+	public void alignWithNeighbours(float attractCutoff) {
 	    if (neighbours!=null) {
 	      for (int i= 0; i<neighbours.size (); i++) {
 	        Plane3D j = (Plane3D) neighbours.get(i);
@@ -57,10 +41,10 @@ public class TopologyAgent extends Agent{
 	          float d = j.distanceTo(this);
 	         // interpolateToPlane3D(j,parent.maxDist);
 	          matchZ(j);
-	          seperate(j,true,parent.attractCutoff);
+	          seperate(j,true,0.03f,attractCutoff);
 	        }
 	      }
-	      interpolateToZZ(normalFrom3Pts(neighbours), parent.maxPlane);
+	      interpolateToZZ(normalFrom3Pts(neighbours), 0.02f);
 	    //  if (sumClose<minBeforeSpawn && age>25)sparsePop=true;
 	    }
 	  }
@@ -69,11 +53,11 @@ public class TopologyAgent extends Agent{
 	public void matchZ(Plane3D j){
 	    //move by normal
 	    Vec3D toPlane3D = j.sub(this);
-	    float ratio = toPlane3D.magnitude()/parent.maxDist;
-	    float f = interp.interpolate(0,parent.maxZ,ratio);
+	    float ratio = toPlane3D.magnitude()/20f;
+	    float f = interp.interpolate(0,0.07f,ratio);
 	    Vec3D zt = zz.scale(f);
 	    float ab = toPlane3D.angleBetween(zz,true);
-	    if (ab>parent.PI/2)zt.invert();
+	    if (ab>(float)Math.PI/2)zt.invert();
 	    addForce(zt);
 	  }
 	
@@ -93,7 +77,7 @@ public class TopologyAgent extends Agent{
 	      (Vec3D)closestPts.pollFirstEntry().getValue(), 
 	      (Vec3D)closestPts.pollFirstEntry().getValue());
 	      n = tri.computeNormal();
-	      if (zz.angleBetween(n)>parent.PI/2)n.invert();
+	      if (zz.angleBetween(n)>(float)Math.PI/2)n.invert();
 	    }
 	    return n;
 	  }

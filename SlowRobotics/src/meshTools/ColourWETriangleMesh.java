@@ -3,6 +3,7 @@ package meshTools;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import processing.core.PApplet;
 import dynamicTools.MainApp;
 import toxi.geom.PointOctree;
 import toxi.geom.Vec3D;
@@ -12,13 +13,13 @@ import toxi.geom.mesh.WETriangleMesh;
 public class ColourWETriangleMesh extends WETriangleMesh {
 	
 	HashMap<Vertex, int[]> colours;
-	MainApp parent;
+	PApplet parent;
 	PointOctree tree;
 	
-	ColourWETriangleMesh(MainApp _parent){
+	ColourWETriangleMesh(PApplet _parent, float bounds){
 		colours = new HashMap<Vertex, int[]>();
 		parent = _parent;
-		tree = new PointOctree(new Vec3D(0,0,-parent.bounds), parent.bounds*2);
+		tree = new PointOctree(new Vec3D(0,0,-bounds),bounds*2);
 	}
 	
 	public void buildTree(){

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import pointCloudTools.PathFinder;
 import pointCloudTools.PointCloud;
+import pointCloudTools.Scanner;
+import processing.core.PApplet;
 import robotTools.Robot;
 import robotTools.RobotWorkspace;
 import toxi.geom.AABB;
@@ -15,23 +17,24 @@ public class TracerAgent extends RobotAgent{
 	int runs = 0;
 	//give a reference to the task manager - this would handle states...
 	
-	public TracerAgent(PointCloud _pcl, RobotWorkspace _ws, Robot _robot) {
+	public TracerAgent(PointCloud _pcl, RobotWorkspace _ws, Robot _robot, Scanner scanner) {
 		super(_pcl,_ws,_robot);
 		setSpeed(1.8f);
 		setAccel(1.8f);
 		set(robot.x,robot.y,height);
-		init();
+		init(scanner);
 		vel = Vec3D.randomVector();
 		vel.set(vel.x,vel.y,0);
 		running = false;
 	}
 	
-	public void run(){
+	public void run(PApplet parent, Scanner scanner){
 		//addRandomVel();
+		
 		if(!running){
 			
 			//set(robot.x,robot.y,height);
-			init();
+			init(scanner);
 		}
 		trace();
 		update();
@@ -40,35 +43,25 @@ public class TracerAgent extends RobotAgent{
 		if(trail.size()>50){
 			removeFromTrail(0);
 			robot.setTarget(trail.get(0).a.add(new Vec3D(0,0,100))); //set target to end of trail
-			String pos = ""+parent.stepVal;
-			ws.rc.sendArduino(pos, 8888, "169.254.106.35");
+		//	String pos = ""+parent.stepVal;
+			
+			// TODO get stepval to be local
+		//	ws.rc.sendArduino(pos, 8888, "169.254.106.35");
 			//could check distance from robot to agent and increase or decrease speed accordingly
 		}
 		if(age%50==0){
-			ws.additiveScan(this,200); 
+			ws.additiveScan(this,200, scanner); 
 		//	height+=2;
 			//set(x,y,height); //push up a bit every 50 frames
 		}
-		if(age>6000){
-			String pos = ""+0;
-			ws.rc.sendArduino(pos, 8888, "169.254.106.35");
-			runs+=1;
-			parent.stepVal-=5;
-			if(parent.stepVal<-110){
-				parent.stepVal = -85;
-				runs =0;
-			
-			}
-			end();
-		}
-		render();
+
 		//checkBounds();
 	}
 	
-	public void init(){
+	public void init(Scanner scanner){
 		age =0;
 		resetTrail();
-		ws.additiveScan(this, 300);
+		ws.additiveScan(this, 300,scanner);
 	}
 	
 	public void addRandomVel(){

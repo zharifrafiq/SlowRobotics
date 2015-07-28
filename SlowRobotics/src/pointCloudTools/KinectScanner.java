@@ -1,19 +1,17 @@
 package pointCloudTools;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
+
 import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL2;
 
-import controlP5.Println;
 import dynamicTools.MainApp;
 import KinectPV2.KinectPV2;
 import processing.opengl.PJOGL;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 
-public class KinectHandler {
+public class KinectScanner implements Scanner{
 	
 	KinectPV2 kinect;
 	MainApp parent;
@@ -21,7 +19,7 @@ public class KinectHandler {
 	float minD = 0f;
 	float[] m = new float[16];
 	
-	public KinectHandler(MainApp _parent){
+	public KinectScanner(MainApp _parent){
 		parent = _parent;
 		kinect = new KinectPV2(parent);
 		//kinect.enableDepthImg(true);
@@ -71,6 +69,7 @@ public class KinectHandler {
 
 	}
 	
+	@Override
 	public float[][] copyAABB(AABB box){
 		//setup transform matrix
 				setOpenGlTransformMatrix();

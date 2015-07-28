@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pointCloudTools.Plane3DOctree;
+import processing.core.PApplet;
 import taxonomy.Agent;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
@@ -27,14 +28,16 @@ public class Environment {
 	ArrayList<Agent> pop;
 	public ArrayList<Agent> removeAgents;
 	ArrayList<Agent> addAgents;
-	MainApp parent;
+	PApplet parent;
+	float bounds;
 
-	Environment(MainApp _parent) {
+	Environment(PApplet _parent, float _bounds) {
 		parent = _parent;
+		bounds = _bounds;
 		pop = new ArrayList<Agent>();
 		removeAgents = new ArrayList<Agent>();
 		addAgents = new ArrayList<Agent>();
-		pts = new Plane3DOctree(new Vec3D(0,0,-parent.bounds), parent.bounds*2,parent);
+		pts = new Plane3DOctree(new Vec3D(0,0,-bounds), bounds*2,parent);
 	}
 
 	//-------------------------------------------------------------------------------------
@@ -58,7 +61,7 @@ public class Environment {
 		}
 		addAgents = new ArrayList<Agent>();
 		removeAgents = new ArrayList<Agent>();
-		pts = new Plane3DOctree(new Vec3D(0,0,-parent.bounds), parent.bounds*2,parent);
+		pts = new Plane3DOctree(new Vec3D(0,0,-bounds), bounds*2,parent);
 		for(Agent a:pop){
 			pts.addPoint(a);
 			/*
@@ -95,6 +98,10 @@ public class Environment {
 		if (inBox ==null) return false;
 		return true;
 	}
+	
+	public ArrayList getWithinSphere(Vec3D p, float rad){
+		return pts.getPointsWithinSphere(p,rad);
+	}
 
 	//-------------------------------------------------------------------------------------
 
@@ -121,7 +128,7 @@ public class Environment {
 	}
 	
 	public void addAgent(Plane3D loc){
-		Agent a = new Agent(loc,false, parent);
+		Agent a = new Agent(loc,false);
 		addAgent(a);
 	}
 	
@@ -149,7 +156,7 @@ public class Environment {
 			Vec3D b = new Vec3D(Float.valueOf(ePt[0]), Float.valueOf(ePt[1]), Float.valueOf(ePt[2])).normalize(); 
 			String[] nPt = parent.split(pts[2], ',');
 			Vec3D n = new Vec3D(Float.valueOf(nPt[0]), Float.valueOf(nPt[1]), Float.valueOf(nPt[2])).normalize();
-			Agent a = new Agent(new Plane3D(o,b,n),fixed, parent);
+			Agent a = new Agent(new Plane3D(o,b,n),fixed);
 			pop.add(a);
 		}
 	}
@@ -174,7 +181,7 @@ public class Environment {
 			String[] sYY = parent.split(sVecs[2], ',');
 			Vec3D y = new Vec3D(Float.valueOf(sYY[0]), Float.valueOf(sYY[1]), Float.valueOf(sYY[2])).normalize();
 			
-			Agent newPt = new Agent(o,x,y,fixed,parent);
+			Agent newPt = new Agent(o,x,y,fixed);
 			
 			for (int j = 1; j<txtPlanes.length;j++){ 
 				String[] fixedTmp = parent.split(txtPlanes[j], '&');  //get whether current

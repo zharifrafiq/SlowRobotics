@@ -1,6 +1,7 @@
 package taxonomy;
 import java.util.ArrayList;
 
+import processing.core.PApplet;
 import dynamicTools.Link;
 import dynamicTools.MainApp;
 import toxi.geom.Vec3D;
@@ -16,32 +17,37 @@ public class FlowAgent extends VolumeAgent{
 	int hangTime =0;
 	int vdensity = 250;
 	TriangleMesh m;
+	PApplet parent;
 
-	FlowAgent (Vec3D _o, boolean _f, MainApp _p, VoxelGrid _v, BooleanBrush _br, TriangleMesh _m, int sf){
-		super (_o, _f,_p, _v, _br);
+	FlowAgent (Vec3D _o, boolean _f, VoxelGrid _v, BooleanBrush _br, TriangleMesh _m, int sf, PApplet _parent){
+		super (_o, _f, _v, _br);
 		m=_m;
 		setScale(sf);
+		parent = _parent;
 		//reset();
 	}
 
 	@Override
 	public void run(){
+		
 		if(!locked()){
 			update();
-			flow(parent.voxels);
+			flow(volume);
 			addToTrail(this);
 			if(trail.size()>25)removeFromTrail(0);
 			if(lastSub==8){
-				if(age<30)remove();
 				f=true;
+				//TODO remove the agent
 			}
-			checkBounds(450);
+			if(checkBounds(450)){
+				f=true;
+				//TODO remove the agent
+			}
 			age++;
 		}
 		if(f)hangTrail();
 		updateTrail();
-		render(); 
-		if(age>400)remove();
+
 	}
 
 	void reset() {
@@ -56,12 +62,6 @@ public class FlowAgent extends VolumeAgent{
 		lastSub =0;
 		resetTrail();
 	}
-	
-	void remove(){
-		parent.environment.remove(this);
-		//parent.addAgentOnMesh(m, 1, sf);
-	}
-
 
 	void flow(VoxelGrid volume) {
 
@@ -81,20 +81,14 @@ public class FlowAgent extends VolumeAgent{
 
 	public void hangTrail(){
 		if(hangTime>100){
-			volBrushTrail(250);
-			remove();
+			volBrushTrail(250,2f,7f);
+			// TODO remove the agent
 		}
 		stiffenTrail(0.04f);
 		Link l = trail.get(0);
 		l.a.addForce(new Vec3D(parent.noise(l.a.x*0.1f)-0.5f,parent.noise(l.a.y*0.1f)-0.5f,parent.noise(l.a.z*0.1f)-0.1f).scale(0.08f));
 		addForceToTrail(new Vec3D(0,0,0.010f));
 		hangTime+=1;
-	}
-
-
-	@Override
-	public void checkBounds(int bounds) {
-		if (x<0 || x>bounds*2 || y<0 || y>bounds*2 || z<0 || z>bounds)remove();
 	}
 
 

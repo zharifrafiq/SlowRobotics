@@ -2,6 +2,7 @@ package taxonomy;
 
 import java.util.ArrayList;
 
+import dynamicTools.Environment;
 import dynamicTools.Link;
 import dynamicTools.MainApp;
 import dynamicTools.Plane3D;
@@ -19,18 +20,20 @@ public class MeshAgent extends Agent{
 	Vec3D p;
 	WEVertex cPt;
 	float a;
+	Environment environment;
 	
-	MeshAgent(Vec3D _l, float _s, ColourWETriangleMesh _mesh, MainApp _p){
-		super(_l,false,_p);
+	MeshAgent(Vec3D _l, float _s, ColourWETriangleMesh _mesh, Environment _environment){
+		super(_l,false);
 		size = _s;
 		mesh = _mesh;
 		c = new int[]{255,255,255};
+		environment = _environment;
 	}
 	
 	
 	public void run(){
 		if(!f){
-			getNeighbours(this,size);
+			getNeighbours(this,size, environment);
 			repelNeighbours(0.5f * ((255-c[2])/255));
 			cPt = (WEVertex) mesh.getClosestVertexToPoint(this);
 			p = PathFinder.getClosestPointOnSurface(cPt, this);
@@ -42,10 +45,10 @@ public class MeshAgent extends Agent{
 			int [] nc = mesh.getClosestColour(this,200);
 			if(nc!=null)c = nc;
 			if(c!=null){
-				size = parent.map(c[0], 0, 255, 20, 5); //set size based on red chanel
+				size = map(c[0], 0, 255, 20, 5); //set size based on red chanel
 				Vec3D toMesh = p.sub(this);
 				a = toMesh.angleBetween(cPt.normal,true);
-				if(distanceTo(p)<10 && a>parent.PI/2 && size>5.5){
+				if(distanceTo(p)<10 && a>(float)Math.PI/2 && size>5.5){
 					addPtsToTrail();
 					f=true;
 					//if(size<10)parent.environment.addAgent(new MeshAgent(add(Vec3D.randomVector().scale(50)), 10, mesh, parent));
@@ -54,16 +57,14 @@ public class MeshAgent extends Agent{
 			
 			update();
 		}else{
-			float hangFactor = parent.map(c[1], 0, 255, -0.15f, 0.05f);
+			float hangFactor = map(c[1], 0, 255, -0.15f, 0.05f);
 			trail.get(trail.size()-1).b.addForce(new Vec3D(0,0,hangFactor));
 			stiffenTrail(0.25f);
 			float repelFactor = (size-5)/80;
 			repelTrailFromMesh(repelFactor);
 			updateTrail();
 		}
-		
-		render();
-		
+
 	}
 	
 	
@@ -75,7 +76,7 @@ public class MeshAgent extends Agent{
 	
 	public void addPtsToTrail(){
 		//float sf = (size-(c[0]/40)+((c[2]/255)*parent.random(10))+a)/4;
-		float sf = ((size*a)+((c[2]/255)*parent.random(10))+parent.random(3))/8;
+		float sf = (float) (((size*a)+((c[2]/255)*Math.random()*10)+Math.random()*3)/8);
 		Vec3D normal = cPt.normal.copy().normalizeTo(sf);
 		for(int i =1;i<8;i++){
 			Plane3D p= new Plane3D(add(normal.scale(i)));
@@ -122,32 +123,5 @@ public class MeshAgent extends Agent{
 		}
 	}
 	
-	public void render(){
-		parent.strokeWeight(1);
-		if(trail.size()>1){
-			int ctr = 0;
-			for (Link l:trail){
-				parent.stroke(255-((255/trail.size())*(ctr/2)));
-				ctr+=1;
-				parent.line(l.a.x, l.a.y, l.a.z, l.b.x,l.b.y,l.b.z);
-			}
-			parent.noStroke();
-			parent.fill(c[0],c[1],c[2]);
-			parent.pushMatrix();
-			parent.translate(x, y,z);
-			parent.sphere(size/2);
-			parent.popMatrix();
-		}else{
-	//	parent.pushMatrix();
-			//parent.translate(x, y,z);
-			
-			//parent.sphere(size/2);
-			//parent.popMatrix();
-			parent.strokeWeight(2);
-			parent.stroke(255);
-			parent.point(x, y,z);
-		}
-		
-	}
 	
 }

@@ -84,10 +84,10 @@ public class DabAgent extends RobotAgent{
 	}
 	
 	public int getStepperVal(){
-		float f = parent.map(steps, maxSteps, 0, 1, stepTargets.length);
+		float f = map(steps, maxSteps, 0, 1, stepTargets.length);
 		int i = (int)f;
 		float lerpFactor = f-i;
-		int stepVal = (int)parent.lerp(stepTargets[i-1], stepTargets[i],lerpFactor);
+		int stepVal = (int)lerp(stepTargets[i-1], stepTargets[i],lerpFactor);
 		return stepVal;
 	}
 

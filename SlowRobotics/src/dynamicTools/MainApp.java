@@ -1,6 +1,6 @@
 package dynamicTools;
 
-import pointCloudTools.KinectHandler;
+import pointCloudTools.KinectScanner;
 import processing.core.*;
 import controlP5.*;
 import toxi.geom.AABB;
@@ -30,43 +30,18 @@ public class MainApp extends PApplet {
 	public Environment environment;
 	ControlP5 controlP5;
 	public ToxiclibsSupport gfx;
-	
-	//sketch specific properties
-	public int maxDist = 20; //max distance for planes to interact
-	public float maxPlane = 0.02f; // this is the strength of an effect that finds an approximate plane for a point and its neighbours 
-	public float maxZ = 0.07f; // the maximum amount that one plane tries to move in its z axis to minimise the distance to other planes
-	public float maxXY = 0.03f; // ditto for x and y axis
-	float maxAlign= 0.07f; // the maximum amount that one plane tries to match the orientation of a neighbour plane 
-	public int bounds = 200; //this is the size of the octree-  once an DynamicGPlane leaves this bounds nothing works.
-	float bendResist = 0.1f;
-	float repelDist = 50f;
-	float repelFactor = 0.00f;
-	float strandStiffness = 0.05f;
-	float alignmentStrength = 0.01f;
-	float attractFactor = 0.00f;
-	float segSearch = 0f;
-	public float attractCutoff = 50f;
-	Vec3D vscale= new Vec3D(1,1,1);
+
 
 	//voxels
 	public VoxelGrid voxels;
-	VectorField vectors;
 	public BooleanBrush vbrush;
 	TriangleMesh mesh;
-	public float bMin = 2f;
-	public float bMax = 7f;
-	public float bthickness = 2f;
-	int dimX = 10;
-	int dimY = 10;
-	int dimZ = 10;
-	int ctr = 0;
-	boolean rec = false;
-	boolean killSwitch =false;
 	
-	//kinect +robot variables
+	//robots
 	RobotWorkspace robotWorkspace;
-	public KinectHandler kinect;
+	//public KinectHandler kinect;
 	
+
 	//calibration
 	public float kinectTranslateX = 550;
 	public float kinectTranslateY = -440;
@@ -89,7 +64,7 @@ public class MainApp extends PApplet {
 		setupP5();
 		reset();
 		//----------------------------------------------------------kinect setup
-		kinect = new KinectHandler(this);
+		//kinect = new KinectHandler(this);
 		try {
 			 Thread.sleep(4000); //try to wait for kinect to initialise
 			} catch (InterruptedException e) {
@@ -102,9 +77,9 @@ public class MainApp extends PApplet {
 
 	public void draw(){
 		background(0);
-		kinect.renderColours();
+		//kinect.renderColours();
 
-		if(!killSwitch)robotWorkspace.run();
+		robotWorkspace.run();
 	//	robotWorkspace.renderMesh(gfx);
 		gui();
 		//saveFrame("/data2/img"+nf(frameCount, 4)+".png");
@@ -126,7 +101,7 @@ public class MainApp extends PApplet {
 
 		if(key=='e'){
 			environment.saveTrails();
-			voxels.save("voxels_"+frameCount+"_"+dimX+"_"+dimY+"_"+dimZ+".raw");
+			voxels.save("voxels_"+frameCount+"_"+voxels.w+"_"+voxels.h+"_"+voxels.d+".raw");
 		}
 		 if(key == CODED){
 		    if (keyCode == LEFT){
@@ -159,7 +134,6 @@ public class MainApp extends PApplet {
 			 String pos = ""+80;
 			 robotWorkspace.rc.sendArduino(pos, 8888, "169.254.106.35");
 			 robotWorkspace.send();
-			 killSwitch = true;
 		 }
 		 if(key == 'i'){
 			 //toggle io
@@ -174,8 +148,9 @@ public class MainApp extends PApplet {
 	}
 	
 	void reset(){
-		environment = new Environment(this);
-		voxels = new VoxelGrid(dimX,dimY,dimZ,vscale);
+		environment = new Environment(this, 2000);
+		//set size of voxels here
+		voxels = new VoxelGrid(10,10,10,new Vec3D(1,1,1));
 	}
 
 	/*------------------------------------
