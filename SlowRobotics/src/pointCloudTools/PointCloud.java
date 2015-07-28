@@ -11,9 +11,9 @@ import java.util.Random;
 
 import javax.media.opengl.GL2;
 
-import dynamicTools.MainApp;
+import core.Agent;
+import core.MainApp;
 import processing.opengl.PJOGL;
-import taxonomy.Agent;
 import toxi.geom.AABB;
 import toxi.geom.Triangle2D;
 import toxi.geom.Vec2D;

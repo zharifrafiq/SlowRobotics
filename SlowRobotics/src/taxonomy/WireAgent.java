@@ -1,8 +1,9 @@
 package taxonomy;
 import java.util.ArrayList;
 
-import dynamicTools.MainApp;
-import dynamicTools.Plane3D;
+import core.Agent;
+import core.MainApp;
+import core.Plane3D;
 import meshTools.MeshPipe;
 import toxi.geom.Vec3D;
 import voxelTools.VoxelGrid;
@@ -26,7 +27,6 @@ public class WireAgent extends Agent{
 	  }
 
 	
-	@Override
 	public void run(){
 		//grow phase
 		/*

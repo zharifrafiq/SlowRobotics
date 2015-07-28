@@ -1,4 +1,4 @@
-package dynamicTools;
+package core;
 import toxi.geom.Matrix4x4;
 import toxi.geom.Quaternion;
 import toxi.geom.Vec3D;
@@ -58,12 +58,12 @@ public class Plane3D extends Particle {
 	  
 	  //alignment function
 	  
-	  void interpolateToPlane3D(Plane3D j,float max, float maxAlign){
+	  void interpolateToPlane3D(Plane3D j,float maxDist, float maxAlign){
 	    Quaternion interpToZ = Quaternion.getAlignmentQuat(j.zz,zz);
 	    Quaternion interpToX = Quaternion.getAlignmentQuat(j.xx,xx);
 	    
 	    Vec3D toPlane3D = j.sub(this);
-	    float ratio = toPlane3D.magnitude()/max;
+	    float ratio = toPlane3D.magnitude()/maxDist;
 	    float f = interp.interpolate(0,maxAlign,ratio);
 	    
 	    Quaternion transformMatrixZ = new Quaternion().interpolateToSelf(interpToZ,f);

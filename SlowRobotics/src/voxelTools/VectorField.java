@@ -2,7 +2,7 @@ package voxelTools;
 import java.util.HashMap;
 
 import controlP5.Println;
-import dynamicTools.MainApp;
+import core.MainApp;
 import toxi.geom.Vec3D;
 
 /*------------------------------------

@@ -1,10 +1,11 @@
 package robotTools;
 
 import java.net.UnknownHostException;
+
+import core.MainApp;
+import core.Plane3D;
 import pointCloudTools.Scanner;
 import pointCloudTools.PointCloud;
-import dynamicTools.MainApp;
-import dynamicTools.Plane3D;
 import taxonomy.DabAgent;
 import taxonomy.TracerAgent;
 import toxi.geom.AABB;
@@ -94,7 +95,6 @@ public class RobotWorkspace {
 		AABB box = AABB.fromMinMax(loc.add(new Vec3D(-rad,-rad,-rad)), loc.add(new Vec3D(rad,rad,0)));
 		parent.noFill();
 		parent.stroke(255,0,0);
-		parent.gfx.box(box);
 		tmp.load(scanner.copyAABB(box));
 		tmp.extractColourRange(r, g, b, fuzz);
 		//pcl.loadSinWavePts();

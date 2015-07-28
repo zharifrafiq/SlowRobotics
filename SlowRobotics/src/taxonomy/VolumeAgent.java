@@ -1,6 +1,8 @@
 package taxonomy;
-import dynamicTools.MainApp;
-import dynamicTools.Plane3D;
+import core.Agent;
+import core.Environment;
+import core.MainApp;
+import core.Plane3D;
 import toxi.geom.Vec3D;
 import toxi.math.CircularInterpolation;
 import toxi.math.ExponentialInterpolation;
@@ -22,13 +24,6 @@ public class VolumeAgent extends Agent{
 	    brush = _br;
 	  }
 	  
-	
-	@Override
-	public void run(){
-		
-	
-		
-	}
 	
 	//-------------------------------------------------------------------------------------
 	  

@@ -1,11 +1,8 @@
-package taxonomy;
+package core;
 import java.util.ArrayList;
 
-import dynamicTools.Environment;
-import dynamicTools.Link;
-import dynamicTools.MainApp;
-import dynamicTools.Plane3D;
 import toxi.geom.*;
+import toxi.math.InterpolateStrategy;
 
 /*------------------------------------
 
@@ -50,13 +47,24 @@ public class Agent extends Plane3D {
 
 	//-------------------------------------------------------------------------------------
 
-	//Run Function
+	//Default Run Function - mostly for testing / demos
 
 	//-------------------------------------------------------------------------------------
 
-	public void run() {
-
+	public void run(Environment environment) {
+		getNeighbours(this, 50, environment); //get nearby agents
+		for(Plane3D a:(ArrayList<Plane3D>)neighbours){
+			repel(a, 0, 30, 0.03f, "sigmoid");
+			cohere(a, 20, 50, 0.01f, "sigmoid");
+			align(this, a, 0, 50, 0.1f, "exponential");
+		}
+		interpolateToXX(vel, 0.5f); //align the plane of the agent with its velocity for funsies
+		addForce(xx.scale(0.01f)); //then push in that dir
+		update(); //moves the agent
+		
+		if(!inBounds(200))set(Vec3D.randomVector().scale(100)); //reset if outa bounds
 	}
+
 
 	//-------------------------------------------------------------------------------------
 
@@ -116,7 +124,7 @@ public class Agent extends Plane3D {
 		}
 	}
 
-	void stiffenTrail(float bendResistance) {
+	protected void stiffenTrail(float bendResistance) {
 		if(trail.size()>1){
 			for(int i =1;i<trail.size();i++){
 				Link prev = trail.get(i-1);
@@ -138,13 +146,94 @@ public class Agent extends Plane3D {
 			}
 		}
 	}
+	
+	//-------------------------------------------------------------------------------------
 
+	//Interpolation
+
+	//-------------------------------------------------------------------------------------
+	
+	//toxi circ interpolator
+	
+	public float interpCirc(float a, float b, float f, boolean isFlipped) {
+        if (isFlipped) {
+                return a - (b - a) * ((float) Math.sqrt(1 - f * f) - 1);
+        } else {
+                f = 1 - f;
+                return a + (b - a) * ((float) Math.sqrt(1 - f * f));
+        }
+	}
+	
+	//toxi cosine interpolator 
+	
+	public float interpCos(float a, float b, float f) {
+        return b+(a-b)*(float)(0.5+0.5*Math.cos(f*Math.PI));
+	}
+	
+	//toxi sigmoid interpolator
+	
+	public float interpSigmoid(float a, float b, float f, float sharpPremult) {
+        f = (f * 2 - 1) * sharpPremult * 5;
+        f = (float) (1.0f / (1.0f + Math.exp(-f)));
+        return a + (b - a) * f;
+	}
+	
+	public float interpExp(float a, float b, float f){
+		return(a+(b-a)*(f*f));
+	}
+	
+	public float getInterpolatedVal(String type, float a, float b, float f){
+		float sf = 0;
+		switch(type){
+			case "exponential": sf = interpExp(a, b, f);
+			case "circle": sf = interpCirc(a, b, f,false);
+			case "cosine": sf = interpCos(a, b, f);
+			case "sigmoid": sf = interpSigmoid(a, b, f,1);
+		}
+		return sf;
+	}
+	
 	//-------------------------------------------------------------------------------------
 
 	//Interpolated Boid Behaviours
 
 	//-------------------------------------------------------------------------------------
-
+	public void cohere(Vec3D c2, float minDist, float maxDist, float maxForce, String interpolatorType){
+		Vec3D to = c2.sub(this);
+		float dist = to.magnitude();
+		if(dist>minDist && dist<maxDist){	
+			float f = ((dist-minDist)/(maxDist-minDist)); //creates a range from 1 to 0
+			float sf = getInterpolatedVal(interpolatorType,0,maxForce,f);
+			addForce(to.normalizeTo(sf));
+		}
+	}
+	
+	public void align(Plane3D c1, Plane3D c2, float minDist, float maxDist, float maxForce, String interpolatorType){
+		Vec3D to = c2.sub(this);
+		float dist = to.magnitude();
+		if(dist>minDist && dist<maxDist){
+			float f = 1-((dist-minDist)/(maxDist-minDist)); //creates a range from 1 to 0
+			float sf = getInterpolatedVal(interpolatorType,0,maxForce,f);
+			interpolateToPlane3D(c2,maxDist,sf);
+		}
+	}
+	
+	public void repel(Vec3D c2,float minDist, float maxDist, float maxForce, String interpolatorType){
+		Vec3D to = c2.sub(this);
+		float dist = to.magnitude();
+		if(dist>=minDist && dist<=maxDist){
+			float f = 1-((dist-minDist)/(maxDist-minDist)); //creates a range from 1 to 0
+			float sf = getInterpolatedVal(interpolatorType,0,maxForce,f);
+			addForce(to.normalizeTo(-sf));
+		}
+	}
+	
+	// Dumping ground for older behaviours
+	
+	//TODO cleanup and borrow from code
+	
+	
+	/*
 	public void seperate(Plane3D j, boolean inXY, float maxXY, float cutoff){
 		Vec3D toPlane3D = j.sub(this);
 		Plane p = new Plane(this, zz);
@@ -167,22 +256,6 @@ public class Agent extends Plane3D {
 			addForce(toPlane3D); 
 		}
 	}
-
-	public void attract(Vec3D j, float max, float strength){
-		Vec3D toPlane3D = j.sub(this);
-		float ratio = 1-(toPlane3D.magnitude()/max);
-		float f = interp.interpolate(0,strength,ratio);
-		toPlane3D.scaleSelf(f);
-		if(!toPlane3D.isZeroVector())addForce(toPlane3D);
-	}
-	/*
-
-	  public void repel(Vec3D j, float max, float strength){
-	    Vec3D toPlane3D = sub(j);
-	    float ratio = 1-(toPlane3D.magnitude()/max);
-	    float f = interp.interpolate(0,strength,ratio);
-	    toPlane3D.scaleSelf(f);
-	    if(!toPlane3D.isZeroVector())addForce(toPlane3D);
-	  }*/
+*/
 
 }

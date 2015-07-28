@@ -3,8 +3,10 @@ package taxonomy;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-import dynamicTools.MainApp;
-import dynamicTools.Plane3D;
+import core.Agent;
+import core.Environment;
+import core.MainApp;
+import core.Plane3D;
 import toxi.geom.Triangle3D;
 import toxi.geom.Vec3D;
 
@@ -16,12 +18,13 @@ public class TopologyAgent extends Agent{
 
 	
 	@Override
-	public void run(){
+	public void run(Environment environment){
 		if (!f){
+			getNeighbours(this, 50, environment);
 			update();
 			alignWithNeighbours(50f);
 		}
-		checkBounds(3000);
+		inBounds(3000); //currently doing nothing
 
 		age++;
 	}
@@ -41,7 +44,7 @@ public class TopologyAgent extends Agent{
 	          float d = j.distanceTo(this);
 	         // interpolateToPlane3D(j,parent.maxDist);
 	          matchZ(j);
-	          seperate(j,true,0.03f,attractCutoff);
+	         // seperate(j,true,0.03f,attractCutoff);
 	        }
 	      }
 	      interpolateToZZ(normalFrom3Pts(neighbours), 0.02f);

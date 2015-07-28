@@ -1,8 +1,8 @@
 package robotTools;
 
 
-import dynamicTools.MainApp;
-import dynamicTools.Plane3D;
+import core.MainApp;
+import core.Plane3D;
 import processing.core.PImage;
 import toxi.geom.Vec3D;
 

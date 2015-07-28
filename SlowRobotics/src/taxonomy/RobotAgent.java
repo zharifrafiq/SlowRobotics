@@ -1,4 +1,5 @@
 package taxonomy;
+import core.Agent;
 import pointCloudTools.PointCloud;
 import robotTools.Robot;
 import robotTools.RobotWorkspace;

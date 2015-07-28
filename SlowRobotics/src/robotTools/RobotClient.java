@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import dynamicTools.MainApp;
+import core.MainApp;
 import processing.data.XML;
 import toxi.geom.Vec3D;
 

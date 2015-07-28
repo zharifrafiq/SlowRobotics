@@ -2,10 +2,11 @@ package taxonomy;
 
 import java.util.ArrayList;
 
-import dynamicTools.Environment;
-import dynamicTools.Link;
-import dynamicTools.MainApp;
-import dynamicTools.Plane3D;
+import core.Agent;
+import core.Environment;
+import core.Link;
+import core.MainApp;
+import core.Plane3D;
 import pointCloudTools.PathFinder;
 import meshTools.ColourWETriangleMesh;
 import toxi.geom.Vec3D;
@@ -38,7 +39,7 @@ public class MeshAgent extends Agent{
 			cPt = (WEVertex) mesh.getClosestVertexToPoint(this);
 			p = PathFinder.getClosestPointOnSurface(cPt, this);
 			if(p!=null){
-				attract(p, 50, 0.1f);
+				//attract(p, 50, 0.1f);
 			}else{
 				addForce(Vec3D.randomVector().scale(1f));
 			}

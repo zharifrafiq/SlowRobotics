@@ -2,9 +2,9 @@ package meshTools;
 
 import java.util.ArrayList;
 
-import dynamicTools.Link;
-import dynamicTools.MainApp;
-import dynamicTools.Plane3D;
+import core.Link;
+import core.MainApp;
+import core.Plane3D;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.TriangleMesh;

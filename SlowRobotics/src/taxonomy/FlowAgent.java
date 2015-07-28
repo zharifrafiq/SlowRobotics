@@ -1,9 +1,9 @@
 package taxonomy;
 import java.util.ArrayList;
 
+import core.Link;
+import core.MainApp;
 import processing.core.PApplet;
-import dynamicTools.Link;
-import dynamicTools.MainApp;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 import voxelTools.BooleanBrush;
@@ -27,10 +27,10 @@ public class FlowAgent extends VolumeAgent{
 		//reset();
 	}
 
-	@Override
 	public void run(){
 		
 		if(!locked()){
+
 			update();
 			flow(volume);
 			addToTrail(this);
@@ -39,7 +39,7 @@ public class FlowAgent extends VolumeAgent{
 				f=true;
 				//TODO remove the agent
 			}
-			if(checkBounds(450)){
+			if(inBounds(450)){
 				f=true;
 				//TODO remove the agent
 			}

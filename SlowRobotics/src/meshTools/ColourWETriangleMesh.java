@@ -3,8 +3,8 @@ package meshTools;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import core.MainApp;
 import processing.core.PApplet;
-import dynamicTools.MainApp;
 import toxi.geom.PointOctree;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.Vertex;

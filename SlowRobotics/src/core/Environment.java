@@ -1,11 +1,10 @@
-package dynamicTools;
+package core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import pointCloudTools.Plane3DOctree;
 import processing.core.PApplet;
-import taxonomy.Agent;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
@@ -37,7 +36,7 @@ public class Environment {
 		pop = new ArrayList<Agent>();
 		removeAgents = new ArrayList<Agent>();
 		addAgents = new ArrayList<Agent>();
-		pts = new Plane3DOctree(new Vec3D(0,0,-bounds), bounds*2,parent);
+		pts = new Plane3DOctree(new Vec3D(-bounds,-bounds,-bounds), bounds*2,parent);
 	}
 
 	//-------------------------------------------------------------------------------------
@@ -47,7 +46,7 @@ public class Environment {
 	//-------------------------------------------------------------------------------------
 
 	public void run() {
-		for (Agent a: pop)a.run();
+		for (Agent a: pop)a.run(this);
 		updateEnvironment();
 	}
 
@@ -61,7 +60,7 @@ public class Environment {
 		}
 		addAgents = new ArrayList<Agent>();
 		removeAgents = new ArrayList<Agent>();
-		pts = new Plane3DOctree(new Vec3D(0,0,-bounds), bounds*2,parent);
+		pts = new Plane3DOctree(new Vec3D(-bounds,-bounds,-bounds), bounds*2,parent);
 		for(Agent a:pop){
 			pts.addPoint(a);
 			/*

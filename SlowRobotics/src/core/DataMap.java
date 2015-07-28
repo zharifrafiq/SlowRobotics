@@ -1,4 +1,4 @@
-package dynamicTools;
+package core;
 import java.awt.Color;
 
 import processing.core.PApplet;

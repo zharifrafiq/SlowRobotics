@@ -1,4 +1,4 @@
-package dynamicTools;
+package core;
 import toxi.geom.Vec3D;
 
 /*------------------------------------
@@ -29,8 +29,8 @@ public class Particle extends Vec3D {
 	//Functions for bounds and mapping
 
 	//-------------------------------------------------------------------------------------
-	public boolean checkBounds(int bounds) {
-		if (x<0 || x>bounds*2 || y<0 || y>bounds*2 || z<-bounds || z>bounds)return false;
+	public boolean inBounds(int bounds) {
+		if (x<-bounds || x>bounds || y<-bounds || y>bounds || z<-bounds || z>bounds)return false;
 		return true;
 	}
 	
