@@ -14,6 +14,7 @@ public class QueryPointCloud extends RobotTask{
 		super(_robot);
 		pcl = _pcl;
 		type = _type;
+		
 	}
 	
 	@Override

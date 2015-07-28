@@ -10,6 +10,8 @@ import java.util.Scanner;
 import pointCloudTools.PointCloud;
 import dynamicTools.MainApp;
 import dynamicTools.Plane3D;
+import taxonomy.DabAgent;
+import taxonomy.TracerAgent;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.STLReader;
@@ -63,8 +65,14 @@ public class RobotWorkspace {
 	}
 	
 	public void run(){
+		
+		// TODO kill calls to listen + send, do this in the robot client thread
+		
 	    listen(); //update robot pos from rsi
 		//listenSim();
+	    
+	    // TODO task handler should also be a seperate thread. 
+	    
 		tasks.run(); 
 		send(); //update rsi
 		//render();	

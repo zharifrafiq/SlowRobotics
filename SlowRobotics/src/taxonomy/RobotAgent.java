@@ -1,12 +1,9 @@
-package robotTools;
-
-import java.util.ArrayList;
-
+package taxonomy;
 import pointCloudTools.PointCloud;
-import dynamicTools.MainApp;
-import taxonomy.Agent;
-import toxi.geom.AABB;
-import toxi.geom.Vec3D;
+import robotTools.Robot;
+import robotTools.RobotWorkspace;
+import robotTools.Task;
+
 
 public class RobotAgent extends Agent implements Task{
 
@@ -15,6 +12,7 @@ public class RobotAgent extends Agent implements Task{
 	RobotWorkspace ws;
 	Robot robot;
 	boolean running;
+	int priority;
 	//give a reference to the task manager - this would handle states...
 	
 	public RobotAgent(PointCloud _pcl, RobotWorkspace _workspace, Robot _robot) {
@@ -29,9 +27,6 @@ public class RobotAgent extends Agent implements Task{
 
 		update();
 		running = true;
-
-		//TODO - add call to end() function
-		//TODO - add stepper calls
 		//checkBounds();
 	}
 	
@@ -43,13 +38,16 @@ public class RobotAgent extends Agent implements Task{
 
 	@Override
 	public boolean finished() {
-		// TODO Auto-generated method stub
 		return !running;
 	}
 
 	@Override
 	public void end() {
-		// TODO Auto-generated method stub
 		running = false;
+	}
+
+	@Override
+	public int getPriority() {
+		return priority;
 	}
 }

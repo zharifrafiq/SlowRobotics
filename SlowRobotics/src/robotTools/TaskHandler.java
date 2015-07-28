@@ -1,18 +1,26 @@
 package robotTools;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import pointCloudTools.PointCloud;
+import taxonomy.DabAgent;
 import toxi.geom.Vec3D;
 
 
-public class TaskHandler implements Task{
+public class TaskHandler {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ArrayList<Task> taskList;
 	Task currentTask;
 	int index;
 	boolean loop;
 	boolean running;
+	int priority;
 	
 	public TaskHandler(boolean _loop){
 		taskList = new ArrayList<Task>();
@@ -67,6 +75,10 @@ public class TaskHandler implements Task{
 		return currentTask.finished();
 	}
 	
+	/*
+	 * 
+	 * TODO cleanup
+	 * 
 	public static TaskHandler followPath(Robot _robot){
 		TaskHandler pathFollower = new TaskHandler(false);
 		for (int i=0;i<5;i++){
@@ -96,5 +108,6 @@ public class TaskHandler implements Task{
 		
 		return coverer;
 	}
+	*/
 	
 }

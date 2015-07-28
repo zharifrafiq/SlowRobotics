@@ -3,10 +3,10 @@ package robotTools;
 public class SetIO extends RobotTask{
 	int io;
 	
-	public SetIO(int _io, Robot _robot) {
+	public SetIO(int _io, Robot _robot, int _priority) {
 		super(_robot);
 		io = _io;
-		// TODO Auto-generated constructor stub
+		priority = _priority;
 	}
 	
 	@Override

@@ -10,7 +10,6 @@ public class WaitFor extends RobotTask{
 		robot.targetPos = robot.copy(); //fix target
 		waitTime = _waitTime;
 		counter = 0;
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

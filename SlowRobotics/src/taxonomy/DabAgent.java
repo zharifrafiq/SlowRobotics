@@ -1,9 +1,11 @@
-package robotTools;
+package taxonomy;
 
 import java.util.ArrayList;
 
 import pointCloudTools.PathFinder;
 import pointCloudTools.PointCloud;
+import robotTools.Robot;
+import robotTools.RobotWorkspace;
 import controlP5.Println;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
@@ -22,7 +24,6 @@ public class DabAgent extends RobotAgent{
 	}
 	
 	public void run() {
-		// TODO Auto-generated method stub
 		if(!running){
 			reset();
 		}

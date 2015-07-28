@@ -1,9 +1,11 @@
-package robotTools;
+package taxonomy;
 
 import java.util.ArrayList;
 
 import pointCloudTools.PathFinder;
 import pointCloudTools.PointCloud;
+import robotTools.Robot;
+import robotTools.RobotWorkspace;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 
@@ -22,7 +24,6 @@ public class TracerAgent extends RobotAgent{
 		vel = Vec3D.randomVector();
 		vel.set(vel.x,vel.y,0);
 		running = false;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void run(){
@@ -61,8 +62,6 @@ public class TracerAgent extends RobotAgent{
 			end();
 		}
 		render();
-		//TODO - add call to end() function
-		//TODO - add stepper calls
 		//checkBounds();
 	}
 	
@@ -135,13 +134,11 @@ public class TracerAgent extends RobotAgent{
 
 	@Override
 	public boolean finished() {
-		// TODO Auto-generated method stub
 		return !running;
 	}
 
 	@Override
 	public void end() {
-		// TODO Auto-generated method stub
 		running = false;
 	}
 }
