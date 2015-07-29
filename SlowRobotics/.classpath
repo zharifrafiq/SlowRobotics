@@ -12,7 +12,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Toxiclibs"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/WBlut"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Kinect2"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/UDP"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/diewald_CV_kit"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
