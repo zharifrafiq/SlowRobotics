@@ -67,6 +67,11 @@ public class RobotWorkspace {
 		//render();	
 	}
 	
+	public void simulate(){
+		listenSim();
+		tasks.run(); 
+	}
+	
 	
 	public void listen(){
 		//----------------------------------------------------------robot comms
