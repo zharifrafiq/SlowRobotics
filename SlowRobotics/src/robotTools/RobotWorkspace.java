@@ -65,7 +65,7 @@ public class RobotWorkspace {
 	    
 		tasks.run(); 
 		send(); //update rsi
-		//render();	
+		render();	
 	}
 	
 	public void simulate(){
