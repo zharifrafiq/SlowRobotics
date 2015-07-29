@@ -3,14 +3,10 @@ package voxelTools;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import ProGAL.geom3d.volumes.Volume;
 import processing.core.PApplet;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.TriangleMesh;
-import wblut.geom.WB_AABB;
-import wblut.geom.WB_AABB3D;
 import wblut.geom.WB_AABBTree;
 import wblut.geom.WB_Point3d;
 import wblut.geom.WB_Ray;

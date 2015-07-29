@@ -66,6 +66,8 @@ public class Agent extends Plane3D {
 			resetTrail();
 			set(Vec3D.randomVector().scale(100)); //reset if outa bounds
 		}
+		
+		//meaningless change
 	}
 
 
