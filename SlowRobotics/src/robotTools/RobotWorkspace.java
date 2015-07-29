@@ -6,6 +6,7 @@ import core.MainApp;
 import core.Plane3D;
 import pointCloudTools.Scanner;
 import pointCloudTools.PointCloud;
+import processing.core.PApplet;
 import taxonomy.DabAgent;
 import taxonomy.TracerAgent;
 import toxi.geom.AABB;
@@ -16,7 +17,7 @@ import toxi.processing.ToxiclibsSupport;
 
 public class RobotWorkspace {
 	
-	public MainApp parent;
+	public PApplet parent;
 	WETriangleMesh mesh;
 	public PointCloud pcl;
 	public Robot robot;
@@ -26,7 +27,7 @@ public class RobotWorkspace {
 
 
 	
-	public RobotWorkspace(MainApp _parent){
+	public RobotWorkspace(PApplet _parent){
 		parent = _parent;
 		pcl = new PointCloud(parent);
 		Plane3D initialPlane = new Plane3D(new Vec3D(540.5f,-18.1f,600f));

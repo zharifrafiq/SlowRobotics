@@ -13,6 +13,7 @@ import javax.media.opengl.GL2;
 
 import core.Agent;
 import core.MainApp;
+import processing.core.PApplet;
 import processing.opengl.PJOGL;
 import toxi.geom.AABB;
 import toxi.geom.Triangle2D;
@@ -32,17 +33,17 @@ public class PointCloud {
 	FloatBuffer colourBuffer;
 	HashMap<String, Float>heightField = new HashMap<String,Float>();
 	HashMap<String, float[]>fieldColours = new HashMap<String,float[]>();
-	MainApp parent;
+	PApplet parent;
 	boolean loaded;
 	int res = 2;
 	
-	public PointCloud(float[] _pts, MainApp _parent){
+	public PointCloud(float[] _pts, PApplet _parent){
 		parent = _parent;
 		pts = _pts;
 		loaded = true;
 	}
 	
-	public PointCloud(MainApp _parent){
+	public PointCloud(PApplet _parent){
 		pts = new float[0];
 		colours = new float[0];
 		parent = _parent;

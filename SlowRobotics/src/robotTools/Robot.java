@@ -3,6 +3,7 @@ package robotTools;
 
 import core.MainApp;
 import core.Plane3D;
+import processing.core.PApplet;
 import processing.core.PImage;
 import toxi.geom.Vec3D;
 
@@ -72,7 +73,7 @@ public class Robot extends Plane3D{
 
 	//-------------------------------------------------------------------------------------
 	
-	public void render(MainApp parent){
+	public void render(PApplet parent){
 	//	endEffector.render(20);
 		if(io==1){
 			parent.stroke(255,0,0);

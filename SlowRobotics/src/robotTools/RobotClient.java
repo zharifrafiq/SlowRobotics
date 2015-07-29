@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import core.MainApp;
+import processing.core.PApplet;
 import processing.data.XML;
 import toxi.geom.Vec3D;
 
@@ -18,7 +18,7 @@ public class RobotClient extends Thread {
 
 	byte[] receiveBuffer = new byte[1024]; 
 	byte[] receiveData;
-	MainApp parent;
+	PApplet parent;
 	
 	boolean running;
 	boolean available;
@@ -28,7 +28,7 @@ public class RobotClient extends Thread {
 
 	//-------------------------------------------------------------------------------------
 	
-	public RobotClient(int _port, MainApp _parent) throws UnknownHostException{
+	public RobotClient(int _port, PApplet _parent) throws UnknownHostException{
 		
 		parent = _parent;
 		port = _port;
