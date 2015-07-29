@@ -24,13 +24,13 @@ public class Environment {
 	// TODO sort out including pins in a map
 	//MultiValueMap<Plane3D, Link> links = new MultiValueMap<Plane3D, Link>();
 	public Plane3DOctree pts;
-	ArrayList<Agent> pop;
+	public ArrayList<Agent> pop;
 	public ArrayList<Agent> removeAgents;
 	ArrayList<Agent> addAgents;
 	PApplet parent;
 	float bounds;
 
-	Environment(PApplet _parent, float _bounds) {
+	public Environment(PApplet _parent, float _bounds) {
 		parent = _parent;
 		bounds = _bounds;
 		pop = new ArrayList<Agent>();

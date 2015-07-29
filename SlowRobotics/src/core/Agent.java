@@ -61,8 +61,11 @@ public class Agent extends Plane3D {
 		interpolateToXX(vel, 0.5f); //align the plane of the agent with its velocity for funsies
 		addForce(xx.scale(0.01f)); //then push in that dir
 		update(); //moves the agent
-		
-		if(!inBounds(200))set(Vec3D.randomVector().scale(100)); //reset if outa bounds
+		if(age%10==0)addToTrail(this);
+		if(!inBounds(200)){
+			resetTrail();
+			set(Vec3D.randomVector().scale(100)); //reset if outa bounds
+		}
 	}
 
 
