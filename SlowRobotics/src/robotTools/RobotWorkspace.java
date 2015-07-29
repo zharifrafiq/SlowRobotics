@@ -40,6 +40,7 @@ public class RobotWorkspace {
 		}
 		
 		robot = new Robot(initialPlane,this);
+		tasks = new TaskHandler(true); //looping tasks
 		//db = new DabAgent(pcl, this, robot);
 		initTasks();
 		
