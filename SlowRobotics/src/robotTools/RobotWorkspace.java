@@ -54,7 +54,7 @@ public class RobotWorkspace {
 		tasks.addTask(task);
 	}
 	
-	public void run(){
+	public void run(String ip){
 		
 		// TODO kill calls to listen + send, do this in the robot client thread
 		
@@ -64,7 +64,7 @@ public class RobotWorkspace {
 	    // TODO task handler should also be a seperate thread. 
 	    
 		tasks.run(); 
-		send(); //update rsi
+		send(ip); //update rsi
 		render();	
 	}
 	
@@ -86,9 +86,9 @@ public class RobotWorkspace {
 		sim.step();
 	}
 	
-	public void send(){
-		rc.sendVector(robot.targetPos, "Position", "10.220.244.122");
-		rc.sendIO(robot.io, "Gripper", "10.220.244.122");
+	public void send(String ip){
+		rc.sendVector(robot.targetPos, "Position", ip);
+		rc.sendIO(robot.io, "Gripper", ip);
 	}
 	
 	public PointCloud updatePcl(){
