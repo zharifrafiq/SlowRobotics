@@ -71,6 +71,7 @@ public class RobotWorkspace {
 	public void simulate(){
 		listenSim();
 		tasks.run(); 
+		render();
 	}
 	
 	
@@ -128,6 +129,6 @@ public class RobotWorkspace {
 	
 	public void render(){
 		robot.render(parent);
-		if(pcl.ready())pcl.renderColours();
+		//if(pcl.ready())pcl.renderColours();
 	}
 }
