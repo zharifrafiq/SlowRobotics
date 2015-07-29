@@ -49,6 +49,10 @@ public class RobotWorkspace {
 	public void initTasks(){
 	}
 	
+	public void addTask(Task task){
+		tasks.addTask(task);
+	}
+	
 	public void run(){
 		
 		// TODO kill calls to listen + send, do this in the robot client thread
